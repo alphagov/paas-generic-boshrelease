@@ -1,0 +1,6 @@
+---
+name: smtp-alert
+blobstore:
+  provider: local
+  options:
+    blobstore_path: /tmp/smtp-alert

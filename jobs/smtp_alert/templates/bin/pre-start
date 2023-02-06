@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -eu
+
+STORE_DIR=/var/vcap/store/smtp_alert
+LOGS_DIR=/var/vcap/sys/log/smtp_alert
+BIN_DIR=/var/vcap/jobs/smtp_alert/bin
+CRONTAB_SCHEDULE="<%= p('smtp_alert.crontab_schedule') %>"
+
+for dir in $LOGS_DIR $STORE_DIR
+do
+  mkdir -p ${dir}
+  chown vcap:vcap ${dir}
+  chmod 775 ${dir}
+done
+
+echo "${CRONTAB_SCHEDULE} vcap ${BIN_DIR}/smtp_alert.rb" > /etc/cron.d/smtp_alert

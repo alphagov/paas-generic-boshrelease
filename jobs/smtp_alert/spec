@@ -1,0 +1,28 @@
+---
+name: smtp_alert
+
+templates:
+  bin/smtp_alert.rb.erb: bin/smtp_alert.rb
+  bin/pre-start: bin/pre-start
+
+packages:
+- ruby_3.1.3
+
+properties:
+  smtp_alert.auth_username:
+    description: "smtp username"
+  smtp_alert.auth_password:
+    description: "smtp password"
+  smtp_alert.smarthost:
+    description: "The AWS SES host used for sending emails"
+    default: "'email-smtp.eu-west-1.amazonaws.com'"
+  smtp_alert.from:
+    description: "The SMTP From header field"
+  smtp_alert.pager_duty_service_key:
+    description: "The pager duty service key"
+  smtp_alert.metrics_environment:
+    description: "The environment in which the smtp_alerter is located"
+  smtp_alert.crontab_schedule:
+    description: "The schedule that will be used to run the job"
+    default: "*/15 * * * *"
+  
