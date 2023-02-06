@@ -1,0 +1,10 @@
+---
+name: ruby_3.1.3
+
+dependencies: []
+
+files:
+- ruby_3.1.3/ruby-3.1.3.tar.gz 	    # https://cache.ruby-lang.org/pub/ruby/3.1/ruby-3.1.3.tar.gz
+- ruby_3.1.3/rubygems-3.4.5.tgz     # https://production.cf.rubygems.org/rubygems/rubygems-3.4.5.tgz
+- ruby_3.1.3/net-smtp-0.3.3.gem     # https://rubygems.org/downloads/net-smtp-0.3.3.gem
+- ruby_3.1.3/pagerduty-4.0.0.gem    # https://rubygems.org/downloads/pagerduty-4.0.0.gem
