@@ -17,7 +17,8 @@ incident_key_file = '/var/vcap/store/smtp_alert/alert.txt'
 pd_service_key    = <%= p('smtp_alert.pager_duty_service_key') %>
 env               = <%= p('smtp_alert.metrics_environment') %>
 $log_file         = '/var/vcap/sys/log/smtp_alert/smtp_alert.log'
-pd_summary        = 'DOWN alert: [%s] PaaS AWS SMTP is down'
+pd_summary_str    = 'DOWN alert: [%s] PaaS AWS SMTP is down'
+pd_source_str     = 'smtp alert on alertmanager vm'
 
 module LogStuff
   extend self
@@ -40,8 +41,8 @@ rescue Exception => e
   return true, e.message
 end
 
-def call_pagerduty(pd_summary, env, pd_service_key, incident_key, smtp_error, event_action)
-  summary_str = sprintf(pd_summary, env.strip)
+def call_pagerduty(pd_summary_str, pd_source_str, env, pd_service_key, incident_key, smtp_error, event_action)
+  summary_str = sprintf(pd_summary_str, env.strip)
   pagerduty = Pagerduty.build(
     integration_key: pd_service_key,
     api_version:     2
@@ -51,7 +52,7 @@ def call_pagerduty(pd_summary, env, pd_service_key, incident_key, smtp_error, ev
   if event_action == "trigger"
     incident.trigger(
       summary:        summary_str,
-      source:         "bosh released smtp alert on alertmanager vm",
+      source:         pd_source_str,
       severity:       "error",
       custom_details: { error: smtp_error }
     )
@@ -87,10 +88,10 @@ begin
       aFile = File.new(incident_key_file, "w+")
       aFile.syswrite(incident_key)
     end
-    call_pagerduty(pd_summary, env, pd_service_key, incident_key, err, "trigger")
+    call_pagerduty(pd_summary_str, pd_source_str, env, pd_service_key, incident_key, err, "trigger")
   else
     if (File.file?(incident_key_file))
-      call_pagerduty(pd_summary, env, pd_service_key, incident_key, "dummy", "resolve")
+      call_pagerduty(pd_summary_str, pd_source_str, env, pd_service_key, incident_key, "dummy", "resolve")
       File.delete(incident_key_file)
     end
   end
