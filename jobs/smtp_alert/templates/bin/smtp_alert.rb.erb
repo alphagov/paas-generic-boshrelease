@@ -4,18 +4,18 @@ require 'net/smtp'
 require 'logger'
 require 'pagerduty'
 
-host              = <%= p('smtp_alert.smarthost') %>
+host              = <%= p('smtp_alert.smarthost').inspect %>
 port              = 587
 msgstr            = 'This is a test message'
-sender            = <%= p('smtp_alert.from') %>
+sender            = <%= p('smtp_alert.from').inspect %>
 recipient         = 'success@simulator.amazonses.com'
 subject           = 'Amazon SES smtp test'
 domain            = 'digital.cabinet-office.gov.uk'
-user              = <%= p('smtp_alert.auth_username') %>
-pass              = <%= p('smtp_alert.auth_password') %>
+user              = <%= p('smtp_alert.auth_username').inspect %>
+pass              = <%= p('smtp_alert.auth_password').inspect %>
 incident_key_file = '/var/vcap/store/smtp_alert/alert.txt'
-pd_service_key    = <%= p('smtp_alert.pager_duty_service_key') %>
-env               = <%= p('smtp_alert.metrics_environment') %>
+pd_service_key    = <%= p('smtp_alert.pager_duty_service_key').inspect %>
+env               = <%= p('smtp_alert.metrics_environment').inspect %>
 $log_file         = '/var/vcap/sys/log/smtp_alert/smtp_alert.log'
 pd_summary_str    = 'DOWN alert: [%s] PaaS AWS SMTP is down'
 pd_source_str     = 'smtp alert on alertmanager vm'
